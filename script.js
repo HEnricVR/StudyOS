@@ -23,6 +23,7 @@ const TRANSLATIONS = {
     placeholder_asig:'Ej: Matemáticas', placeholder_act:'Ej: Examen parcial',
     placeholder_tarea_titulo:'Ej: Entregar trabajo de historia', placeholder_tarea_desc:'Notas adicionales...',
     tipo_examen:'Examen', tipo_trabajo:'Trabajo', tipo_proyecto:'Proyecto', tipo_practica:'Práctica', tipo_otro:'Otro',
+    label_grupo:'Grupo de evaluación', placeholder_grupo:'Ej: Parciales',
     cancelar:'Cancelar', crear:'Crear', guardar:'Guardar', añadir:'Añadir', borrar:'Borrar', confirmar:'Confirmar',
     confirmar_titulo:'¿Confirmar?',
     ajuste_idioma:'Idioma', ajuste_idioma_desc:'Cambia el idioma de la app',
@@ -65,6 +66,7 @@ const TRANSLATIONS = {
     placeholder_asig:'E.g.: Mathematics', placeholder_act:'E.g.: Midterm exam',
     placeholder_tarea_titulo:'E.g.: Submit history paper', placeholder_tarea_desc:'Additional notes...',
     tipo_examen:'Exam', tipo_trabajo:'Assignment', tipo_proyecto:'Project', tipo_practica:'Practice', tipo_otro:'Other',
+    label_grupo:'Evaluation group', placeholder_grupo:'E.g.: Midterms',
     cancelar:'Cancel', crear:'Create', guardar:'Save', añadir:'Add', borrar:'Delete', confirmar:'Confirm',
     confirmar_titulo:'Confirm?',
     ajuste_idioma:'Language', ajuste_idioma_desc:'Change the app language',
@@ -107,6 +109,7 @@ const TRANSLATIONS = {
     placeholder_asig:'Ex: Mathématiques', placeholder_act:'Ex: Examen partiel',
     placeholder_tarea_titulo:'Ex: Remettre le devoir d\'histoire', placeholder_tarea_desc:'Notes supplémentaires...',
     tipo_examen:'Examen', tipo_trabajo:'Devoir', tipo_proyecto:'Projet', tipo_practica:'TP', tipo_otro:'Autre',
+    label_grupo:'Groupe d\'évaluation', placeholder_grupo:'Ex: Partiels',
     cancelar:'Annuler', crear:'Créer', guardar:'Sauvegarder', añadir:'Ajouter', borrar:'Supprimer', confirmar:'Confirmer',
     confirmar_titulo:'Confirmer ?',
     ajuste_idioma:'Langue', ajuste_idioma_desc:'Changer la langue de l\'app',
@@ -149,6 +152,7 @@ const TRANSLATIONS = {
     placeholder_asig:'z.B.: Mathematik', placeholder_act:'z.B.: Zwischenprüfung',
     placeholder_tarea_titulo:'z.B.: Geschichtsarbeit abgeben', placeholder_tarea_desc:'Zusätzliche Notizen...',
     tipo_examen:'Prüfung', tipo_trabajo:'Hausarbeit', tipo_proyecto:'Projekt', tipo_practica:'Übung', tipo_otro:'Sonstiges',
+    label_grupo:'Bewertungsgruppe', placeholder_grupo:'z.B.: Prüfungen',
     cancelar:'Abbrechen', crear:'Erstellen', guardar:'Speichern', añadir:'Hinzufügen', borrar:'Löschen', confirmar:'Bestätigen',
     confirmar_titulo:'Bestätigen?',
     ajuste_idioma:'Sprache', ajuste_idioma_desc:'App-Sprache ändern',
@@ -191,6 +195,7 @@ const TRANSLATIONS = {
     placeholder_asig:'Ex: Matemática', placeholder_act:'Ex: Exame parcial',
     placeholder_tarea_titulo:'Ex: Entregar trabalho de história', placeholder_tarea_desc:'Notas adicionais...',
     tipo_examen:'Exame', tipo_trabajo:'Trabalho', tipo_proyecto:'Projeto', tipo_practica:'Prática', tipo_otro:'Outro',
+    label_grupo:'Grupo de avaliação', placeholder_grupo:'Ex: Parciais',
     cancelar:'Cancelar', crear:'Criar', guardar:'Guardar', añadir:'Adicionar', borrar:'Apagar', confirmar:'Confirmar',
     confirmar_titulo:'Confirmar?',
     ajuste_idioma:'Idioma', ajuste_idioma_desc:'Muda o idioma da app',
@@ -233,6 +238,7 @@ const TRANSLATIONS = {
     placeholder_asig:'例：数学', placeholder_act:'例：期中考试',
     placeholder_tarea_titulo:'例：提交历史作业', placeholder_tarea_desc:'附加说明...',
     tipo_examen:'考试', tipo_trabajo:'作业', tipo_proyecto:'项目', tipo_practica:'实践', tipo_otro:'其他',
+    label_grupo:'评估组', placeholder_grupo:'例：期中',
     cancelar:'取消', crear:'创建', guardar:'保存', añadir:'添加', borrar:'删除', confirmar:'确认',
     confirmar_titulo:'确认？',
     ajuste_idioma:'语言', ajuste_idioma_desc:'更改应用语言',
@@ -275,6 +281,7 @@ const TRANSLATIONS = {
     placeholder_asig:'Напр: Математика', placeholder_act:'Напр: Промежуточный экзамен',
     placeholder_tarea_titulo:'Напр: Сдать работу по истории', placeholder_tarea_desc:'Дополнительные заметки...',
     tipo_examen:'Экзамен', tipo_trabajo:'Работа', tipo_proyecto:'Проект', tipo_practica:'Практика', tipo_otro:'Другое',
+    label_grupo:'Группа оценки', placeholder_grupo:'Напр: Промежуточные',
     cancelar:'Отмена', crear:'Создать', guardar:'Сохранить', añadir:'Добавить', borrar:'Удалить', confirmar:'Подтвердить',
     confirmar_titulo:'Подтвердить?',
     ajuste_idioma:'Язык', ajuste_idioma_desc:'Изменить язык приложения',
@@ -317,6 +324,7 @@ const TRANSLATIONS = {
     placeholder_asig:'उदा: गणित', placeholder_act:'उदा: मध्यावधि परीक्षा',
     placeholder_tarea_titulo:'उदा: इतिहास कार्य जमा करें', placeholder_tarea_desc:'अतिरिक्त नोट्स...',
     tipo_examen:'परीक्षा', tipo_trabajo:'कार्य', tipo_proyecto:'परियोजना', tipo_practica:'अभ्यास', tipo_otro:'अन्य',
+    label_grupo:'मूल्यांकन समूह', placeholder_grupo:'उदा: आंशिक',
     cancelar:'रद्द करें', crear:'बनाएं', guardar:'सहेजें', añadir:'जोड़ें', borrar:'हटाएं', confirmar:'पुष्टि करें',
     confirmar_titulo:'पुष्टि करें?',
     ajuste_idioma:'भाषा', ajuste_idioma_desc:'ऐप की भाषा बदलें',
@@ -430,10 +438,14 @@ function escapeHtml(s) {
 function calcularMedia(asig) {
   const withNota = (asig.actividades||[]).filter(a => a.nota!==''&&a.nota!==null&&a.nota!==undefined);
   if (!withNota.length) return null;
+  // Agrupar por "grupo + porcentaje": mismo nombre de grupo Y mismo % → comparten la media
+  // Si no tiene grupo definido, cae en un grupo por porcentaje (comportamiento anterior)
   const grupos = {};
   withNota.forEach(a => {
-    const k = (parseFloat(a.porcentaje)||0).toString();
-    if (!grupos[k]) grupos[k] = { pct: parseFloat(a.porcentaje)||0, notas:[] };
+    const pct = parseFloat(a.porcentaje)||0;
+    const grp = (a.grupo||'').trim();
+    const k = grp ? (grp + '|' + pct) : ('__pct__|' + pct);
+    if (!grupos[k]) grupos[k] = { pct, notas:[] };
     grupos[k].notas.push(parseFloat(a.nota)||0);
   });
   let notaFinal=0, pctAcum=0;
@@ -594,7 +606,7 @@ function renderAsignatura() {
     card.className='actividad-card'; card.style.animationDelay=`${i*0.04}s`;
     card.innerHTML=`
       <span class="actividad-tipo-badge">${escapeHtml(t('tipo_'+act.tipo)||act.tipo)}</span>
-      <div class="actividad-info"><p class="actividad-nombre">${escapeHtml(act.nombre)}</p><p class="actividad-pct">${act.porcentaje}%</p></div>
+      <div class="actividad-info"><p class="actividad-nombre">${escapeHtml(act.nombre)}</p><p class="actividad-pct">${act.grupo ? escapeHtml(act.grupo)+' · ' : ''}${act.porcentaje}%</p></div>
       <span class="actividad-nota ${nCls}">${nTxt}</span>
       <div class="actividad-actions">
         <button class="act-btn edit" title="Editar">✎</button>
@@ -614,10 +626,12 @@ function crearActividad() {
   if (!nombre){showToast(t('toast_nombre_requerido'));return;}
   if (isNaN(pctVal)){showToast(t('toast_pct_requerido'));return;}
   if (pctVal>100){showToast(t('toast_pct_max'));return;}
+  const grupo=document.getElementById('input-actividad-grupo').value.trim();
   const asig=DB.getAsignatura(currentAsignaturaId); if(!asig)return;
-  asig.actividades.push({id:uid(),nombre,tipo,porcentaje:pctVal,nota:notaVal!==''?parseFloat(notaVal):''});
+  asig.actividades.push({id:uid(),nombre,tipo,grupo,porcentaje:pctVal,nota:notaVal!==''?parseFloat(notaVal):''});
   DB.updateAsignatura(asig);
   document.getElementById('input-actividad-nombre').value='';
+  document.getElementById('input-actividad-grupo').value='';
   document.getElementById('input-actividad-porcentaje').value='';
   document.getElementById('input-actividad-nota').value='';
   closeModal('modal-nueva-actividad');
@@ -631,6 +645,7 @@ function abrirEdicionActividad(actId) {
   document.getElementById('edit-actividad-id').value=actId;
   document.getElementById('edit-actividad-nombre').value=act.nombre;
   document.getElementById('edit-actividad-tipo').value=act.tipo||'otro';
+  document.getElementById('edit-actividad-grupo').value=act.grupo||'';
   document.getElementById('edit-actividad-porcentaje').value=act.porcentaje;
   document.getElementById('edit-actividad-nota').value=act.nota!==''?act.nota:'';
   openModal('modal-editar-actividad');
@@ -645,7 +660,8 @@ function guardarEdicionActividad() {
   if (!nombre){showToast(t('toast_nombre_requerido'));return;}
   if (pctVal>100){showToast(t('toast_pct_max'));return;}
   const asig=DB.getAsignatura(currentAsignaturaId); if(!asig)return;
-  asig.actividades=asig.actividades.map(a=>a.id!==actId?a:{...a,nombre,tipo,porcentaje:pctVal||a.porcentaje,nota:notaVal!==''?parseFloat(notaVal):''});
+  const grupo=document.getElementById('edit-actividad-grupo').value.trim();
+  asig.actividades=asig.actividades.map(a=>a.id!==actId?a:{...a,nombre,tipo,grupo,porcentaje:pctVal||a.porcentaje,nota:notaVal!==''?parseFloat(notaVal):''});
   DB.updateAsignatura(asig);
   closeModal('modal-editar-actividad');
   renderAsignatura();
